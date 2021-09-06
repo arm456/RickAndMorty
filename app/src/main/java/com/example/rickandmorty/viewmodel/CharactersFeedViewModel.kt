@@ -13,8 +13,8 @@ class CharactersFeedViewModel(private val repository: RickMortyRepository) : Vie
     private val _charactersLiveData = MutableLiveData<MutableList<ResultX>>()
     val charactersLiveData: LiveData<MutableList<ResultX>> = _charactersLiveData
 
-    private val _characterItemClickLiveData = MutableLiveData<OnClickEvent<Int>>()
-    val characterItemClickLiveData: LiveData<OnClickEvent<Int>> = _characterItemClickLiveData
+    private val _characterItemClickLiveData = MutableLiveData<OnClickEvent<ResultX>>()
+    val characterItemClickLiveData: LiveData<OnClickEvent<ResultX>> = _characterItemClickLiveData
 
     private val _errorLiveData = MutableLiveData<NetworkException>()
     val errorLiveData: LiveData<NetworkException> = _errorLiveData
@@ -43,7 +43,7 @@ class CharactersFeedViewModel(private val repository: RickMortyRepository) : Vie
         }
     }
 
-    fun onListItemClicked(id: Int) {
+    fun onListItemClicked(id: ResultX) {
         _characterItemClickLiveData.postValue(OnClickEvent(id))
     }
 

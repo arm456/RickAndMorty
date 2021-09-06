@@ -39,7 +39,10 @@ class LocationDetailsFragment(contentLayoutId: Int) : Fragment(contentLayoutId) 
             this, LocationDetailsViewModel.Factory(repository = repository)
         ).get(LocationDetailsViewModel::class.java)
 
-        arguments?.getInt(ID)?.let { detailsViewModel.getItemDetails(it) }
+        arguments?.getParcelable<ResultX>(CHARACTER)?.let {
+            val result = Integer.parseInt(it.url.filter { it.isDigit() })
+            detailsViewModel.getItemDetails(result)
+        }
 
         detailsViewModel.detailsLiveData.observe(viewLifecycleOwner, Observer { item ->
             binding.loadingView.loadingSpinner.visibility = View.GONE
@@ -47,8 +50,8 @@ class LocationDetailsFragment(contentLayoutId: Int) : Fragment(contentLayoutId) 
             binding.itemDesc.text = item.type
             binding.itemRating.text = item.dimension
             binding.itemAddress.text = item.residents.size.toString()
-            arguments?.getString(IMAGE)?.let {
-                Glide.with(view.context).load(it).into(binding.itemDetailImageView)
+            arguments?.getParcelable<ResultX>(CHARACTER)?.let {
+                Glide.with(view.context).load(it.image).into(binding.itemDetailImageView)
             }
         })
 
@@ -64,14 +67,13 @@ class LocationDetailsFragment(contentLayoutId: Int) : Fragment(contentLayoutId) 
 
     companion object {
         private const val ID = "ID"
-        private const val IMAGE = "IMAGE"
+        private const val CHARACTER = "CHARACTER"
 
         @JvmStatic
-        fun newInstance(id: Int, contentLayoutId: Int): LocationDetailsFragment {
+        fun newInstance(infor: ResultX, contentLayoutId: Int): LocationDetailsFragment {
             return LocationDetailsFragment(contentLayoutId).apply {
                 arguments = Bundle().apply {
-                    putInt(ID, id)
-//                    putString(IMAGE, image)
+                    putParcelable(CHARACTER, infor)
                 }
             }
         }

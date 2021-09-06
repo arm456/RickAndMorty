@@ -40,11 +40,8 @@ class CharactersFeedAdapter(
         holder.status.text=listItem.status
 
         holder.itemView.setOnClickListener {
-            listItem.location.let { it ->
-//                val n=Character.getNumericValue(it.url.toCharArray()[it.url.length-1])
-                val result=Integer.parseInt(it.url.filter { it.isDigit() })
-                charactersFeedViewModel.onListItemClicked(result)
-//                charactersFeedViewModel.onListItemClicked(listItem)
+            listItem.let {
+                charactersFeedViewModel.onListItemClicked(listItem)
             }
         }
     }
